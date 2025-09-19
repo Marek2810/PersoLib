@@ -1,4 +1,4 @@
-package me.marek2810.persoLib.v1_21_R3.hologram;
+package me.marek2810.persoLib.v1_21_R3.entity;
 
 import me.marek2810.persoLib.entity.EntitySetting;
 import me.marek2810.persoLib.hologram.setting.HologramSetting;
