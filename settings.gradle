@@ -1,0 +1,4 @@
+rootProject.name = 'PersoLib'
+include ':api', ':NMS1_21_4'
+
+
