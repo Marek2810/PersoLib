@@ -10,9 +10,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.craftbukkit.v1_21_R3.block.data.CraftBlockData;
+import net.minecraft.world.level.block.state.BlockState;
+import org.bukkit.craftbukkit.v1_21_R3.block.CraftBlockState;
 import org.bukkit.craftbukkit.v1_21_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
@@ -26,10 +25,11 @@ public final class EntityDataAdapter {
 
     private static final Map<Class<?>, EntityDataSerializer<?>> SERIALIZERS = Map.ofEntries(
             Map.entry(Vector3f.class, EntityDataSerializers.VECTOR3),
+            Map.entry(Boolean.class, EntityDataSerializers.BOOLEAN),
             Map.entry(Byte.class, EntityDataSerializers.BYTE),
             Map.entry(Float.class, EntityDataSerializers.FLOAT),
             Map.entry(Integer.class, EntityDataSerializers.INT),
-            Map.entry(net.minecraft.world.level.block.state.BlockState.class, EntityDataSerializers.BLOCK_STATE),
+            Map.entry(BlockState.class, EntityDataSerializers.BLOCK_STATE),
             Map.entry(ItemStack.class, EntityDataSerializers.ITEM_STACK),
             Map.entry(MutableComponent.class, EntityDataSerializers.COMPONENT)
     );
@@ -58,10 +58,8 @@ public final class EntityDataAdapter {
             value = CraftItemStack.asNMSCopy(item);
         } else if (value instanceof ItemDisplay.ItemDisplayTransform itemDisplayTransform) {
             value = getItemDisplayContext(itemDisplayTransform).getId();
-        } else if (value instanceof BlockState blockState) {
-            BlockData bukkitData = blockState.getBlockData();
-            CraftBlockData craftData = (CraftBlockData) bukkitData;
-            value = craftData.getState();
+        } else if (value instanceof org.bukkit.block.BlockState blockState) {
+            value = ((CraftBlockState) blockState).getHandle();
         }
 
         EntityDataSerializer<Object> serializer = getEntityDataSerializer(value.getClass());

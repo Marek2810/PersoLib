@@ -43,13 +43,13 @@ public abstract class HologramLine {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getSetting(EntitySetting<T> setting) {
+    protected <T> T getSetting(EntitySetting<T> setting) {
         Object value = settings.get(setting);
         if (value == null) return null;
         return (T) value;
     }
 
-    public <T> void setSetting(EntitySetting<T> setting, T value) {
+    protected <T> void setSetting(EntitySetting<T> setting, T value) {
         settings.put(setting, value);
     }
 

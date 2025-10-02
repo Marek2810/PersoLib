@@ -79,4 +79,12 @@ public final class HologramSetting {
 
     }
 
+    public static class Interaction {
+        // Text-specific  (TextDisplay entity)
+        public static final EntitySetting<Float> WIDTH = new EntitySetting<>(Float.class, 8);
+        public static final EntitySetting<Float> HEIGHT = new EntitySetting<>(Float.class, 9);
+        public static final EntitySetting<Boolean> RESPONSIVE  = new EntitySetting<>(Boolean.class, 10);
+
+    }
+
 }

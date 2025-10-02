@@ -1,7 +1,10 @@
 package me.marek2810.persoLib.hologram;
 
 import me.marek2810.persoLib.hologram.line.HologramLine;
+import me.marek2810.persoLib.interaction.PersoInteraction;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractHologram implements Hologram {
 
@@ -10,6 +13,9 @@ public abstract class AbstractHologram implements Hologram {
     protected Location location;
 
     protected final HologramLine hologramLine;
+
+    @Nullable
+    protected PersoInteraction persoInteraction;
 
     public AbstractHologram(String id, Location location, HologramLine hologramLine) {
         this.id = id;
@@ -25,6 +31,26 @@ public abstract class AbstractHologram implements Hologram {
     @Override
     public Location getLocation() {
         return this.location;
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public void addInteraction(PersoInteraction newInteraction) {
+        PersoInteraction persoInteraction = getInteraction();
+        if (persoInteraction != null) {
+            Bukkit.getOnlinePlayers().forEach(persoInteraction::hideFrom);
+        }
+        this.persoInteraction = newInteraction;
+    }
+
+    @Override
+    @Nullable
+    public PersoInteraction getInteraction() {
+        return persoInteraction;
     }
 
 }

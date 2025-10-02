@@ -4,22 +4,51 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public interface HologramManager {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-    Hologram createTextHologram(String id, Location location);
+public abstract class HologramManager {
 
-    Hologram createTextHologram(String id, Location location, String text);
+    protected final Map<String, Hologram> hologramMap;
 
-    Hologram createItemHologram(String id, Location location);
+    public HologramManager() {
+        this.hologramMap = new HashMap<>();
+    }
 
-    Hologram createItemHologram(String id, Location location, ItemStack item);
+    public abstract Hologram createTextHologram(String id, Location location);
 
-    Hologram createBlockHologram(String id, Location location);
+    public abstract Hologram createTextHologram(String id, Location location, String text);
 
-    Hologram createBlockHologram(String id, Location location, Material block);
+    public abstract Hologram createItemHologram(String id, Location location);
 
-    Hologram get(String id);
+    public abstract Hologram createItemHologram(String id, Location location, ItemStack item);
 
-    void remove(String id);
+    public abstract Hologram createBlockHologram(String id, Location location);
+
+    public abstract Hologram createBlockHologram(String id, Location location, Material block);
+
+    public Hologram get(String id) {
+        return hologramMap.get(id);
+    }
+
+    public Optional<Hologram> get(int entityId) {
+        return hologramMap.values().stream()
+                .filter(holo -> holo.getEntityId() == entityId)
+                .findFirst();
+    }
+
+    public Optional<Hologram> getInteracted(int entityId) {
+        return hologramMap.values().stream()
+                .filter(hologram ->
+                        hologram.getInteraction() != null
+                        && hologram.getInteraction().getEntityId() == entityId
+                )
+                .findFirst();
+    }
+
+    public void remove(String id) {
+        this.hologramMap.remove(id);
+    }
 
 }

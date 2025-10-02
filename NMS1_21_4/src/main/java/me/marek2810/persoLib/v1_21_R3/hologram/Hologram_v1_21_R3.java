@@ -1,7 +1,8 @@
 package me.marek2810.persoLib.v1_21_R3.hologram;
 
-import me.marek2810.persoLib.hologram.*;
+import me.marek2810.persoLib.hologram.AbstractHologram;
 import me.marek2810.persoLib.hologram.line.HologramLine;
+import me.marek2810.persoLib.interaction.PersoInteraction;
 import me.marek2810.persoLib.v1_21_R3.entity.EntityDataAdapter;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -26,12 +27,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
-public class Hologram extends AbstractHologram {
+public class Hologram_v1_21_R3 extends AbstractHologram {
 
     @Nullable
     private Display entity;
 
-    public Hologram(String id, Location location, HologramLine hologramLine) {
+    public Hologram_v1_21_R3(String id, Location location, HologramLine hologramLine) {
         super(id, location, hologramLine);
     }
 
@@ -53,6 +54,13 @@ public class Hologram extends AbstractHologram {
     }
 
     @Override
+    public int getEntityId() {
+        if (entity == null)
+            return -1;
+        return entity.getId();
+    }
+
+    @Override
     public void teleport(Location target) {
         net.minecraft.world.entity.Display entity = getEntity();
         if (entity == null)
@@ -64,6 +72,10 @@ public class Hologram extends AbstractHologram {
 
         Packet<?> teleportDisplayPacket = new ClientboundTeleportEntityPacket(entity.getId(), PositionMoveRotation.of(entity), Set.of(), entity.onGround());
         Bukkit.getOnlinePlayers().forEach(player -> getConnection(player).sendPacket(teleportDisplayPacket));
+
+        if (persoInteraction != null) {
+            persoInteraction.teleport(target);
+        }
     }
 
     @Override
@@ -89,6 +101,9 @@ public class Hologram extends AbstractHologram {
         getConnection(player).sendPacket(addDisplayPacket);
 
         update(player);
+        if (persoInteraction != null) {
+            persoInteraction.showTo(player);
+        }
     }
 
     @Override
@@ -98,6 +113,10 @@ public class Hologram extends AbstractHologram {
 
         Packet<?> removeDisplayPacket = new ClientboundRemoveEntitiesPacket(getEntity().getId());
         getConnection(player).sendPacket(removeDisplayPacket);
+
+        if (persoInteraction != null) {
+            persoInteraction.hideFrom(player);
+        }
     }
 
     //https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Entity_metadata#Display
@@ -113,8 +132,21 @@ public class Hologram extends AbstractHologram {
 
         Packet<?> dataPacket = new ClientboundSetEntityDataPacket(getEntity().getId(), data);
         getConnection(player).sendPacket(dataPacket);
+
+        if (persoInteraction != null) {
+            persoInteraction.update(player);
+        }
     }
 
+    @Override
+    public void removeInteraction() {
+        PersoInteraction interaction = this.getInteraction();
+        if (interaction == null)
+            return;
+
+        Bukkit.getOnlinePlayers().forEach(interaction::hideFrom);
+        this.persoInteraction = null;
+    }
 
     @Nullable
     public Display getEntity() {
@@ -133,11 +165,6 @@ public class Hologram extends AbstractHologram {
         CraftPlayer craftPlayer = (CraftPlayer) player;
         ServerPlayer handle = craftPlayer.getHandle();
         return handle.connection;
-    }
-
-    @Override
-    public String getId() {
-        return this.id;
     }
 
 }
