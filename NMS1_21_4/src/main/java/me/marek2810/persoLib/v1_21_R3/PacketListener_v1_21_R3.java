@@ -1,0 +1,125 @@
+package me.marek2810.persoLib.v1_21_R3;
+
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToMessageDecoder;
+import me.marek2810.persoLib.event.listener.PacketListener;
+import me.marek2810.persoLib.hologram.Hologram;
+import me.marek2810.persoLib.hologram.HologramManager;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.server.network.ServerCommonPacketListenerImpl;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.InteractionHand;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Optional;
+
+public class PacketListener_v1_21_R3 implements PacketListener {
+
+    private final HologramManager hologramManager;
+
+    public PacketListener_v1_21_R3(HologramManager hologramManager) {
+        this.hologramManager = hologramManager;
+    }
+
+    @Override
+    public void injectPacketListener(Player player) {
+        try {
+
+            ServerGamePacketListenerImpl serverConnection = ((CraftPlayer) player).getHandle().connection;
+
+            Field connectionField = ServerCommonPacketListenerImpl.class.getDeclaredField("connection");
+            connectionField.setAccessible(true);
+
+            Connection connection = (Connection) connectionField.get(serverConnection);
+
+            Channel channel = connection.channel;
+
+            if (channel.pipeline().get(PACKET_INJECTOR) != null) {
+                System.out.println("PLAYER ALREADY INJECTED");
+                return;
+            }
+            channel.pipeline().addAfter("decoder", PACKET_INJECTOR, new MessageToMessageDecoder<ServerboundInteractPacket>() {
+                @Override
+                protected void decode(ChannelHandlerContext channelHandlerContext, ServerboundInteractPacket packet, List<Object> list) throws ReflectiveOperationException {
+                    list.add(packet);
+                    if (packet == null) return;
+
+                    Field entityIdField = ServerboundInteractPacket.class.getDeclaredField("entityId");
+                    entityIdField.setAccessible(true);
+                    Object entityIdValue = entityIdField.get(packet);
+
+                    int entityId = (int) entityIdValue;
+
+                    System.out.println("interact");
+                    System.out.println("entityId " + entityId);
+                    Optional<Hologram> clickedHologram = hologramManager.getInteracted(entityId);
+                    System.out.println("is hologram? " + clickedHologram.isPresent());
+                    if (clickedHologram.isPresent()) {
+                        Hologram hologram = clickedHologram.get();
+                        System.out.println("holo click!");
+                        System.out.println("holo " + hologram);
+                        System.out.println("name " + hologram.getId());
+
+                        clickedHologram.get().getInteraction().getAction().execute(player);
+                    }
+
+                    Field actionField = ServerboundInteractPacket.class.getDeclaredField("action");
+                    actionField.setAccessible(true);
+                    Object actionValue = actionField.get(packet);
+                    Method getTypeMethod = actionValue.getClass().getMethod("getType");
+                    getTypeMethod.setAccessible(true);
+                    Object interactionType = getTypeMethod.invoke(actionValue);
+                    System.out.println("type: " + interactionType);
+
+                    if (interactionType.toString().equalsIgnoreCase("interact")
+                            || interactionType.toString().equalsIgnoreCase("interact_at")) {
+                        System.out.println("?");
+
+                        Field handField = actionValue.getClass().getDeclaredField("hand");
+                        handField.setAccessible(true);
+                        Object hand = handField.get(actionValue);
+                        InteractionHand interactionHand = (InteractionHand) hand;
+                        System.out.println("interactionHand " + interactionHand);
+
+                        System.out.println("Hand used: " + hand);
+                    }
+                    System.out.println("---");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void uninjectPacketListener(Player player) {
+        try {
+            ServerGamePacketListenerImpl serverConnection = ((CraftPlayer) player).getHandle().connection;
+
+            Field connectionField = ServerCommonPacketListenerImpl.class.getDeclaredField("connection");
+            connectionField.setAccessible(true);
+
+            Connection connection = (Connection) connectionField.get(serverConnection);
+
+            Channel channel = connection.channel;
+            if (channel.pipeline().get(PACKET_INJECTOR) == null)
+                return;
+
+            channel.pipeline().remove(PACKET_INJECTOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public HologramManager getHologramManager() {
+        return hologramManager;
+    }
+
+}
