@@ -2,8 +2,10 @@ package me.marek2810.persoLib.nms_v1_21_R3.hologram;
 
 import me.marek2810.persoLib.hologram.AbstractHologram;
 import me.marek2810.persoLib.hologram.line.HologramLine;
+import me.marek2810.persoLib.interaction.InteractionAction;
 import me.marek2810.persoLib.interaction.PersoInteraction;
 import me.marek2810.persoLib.nms_v1_21_R3.entity.EntityDataAdapter;
+import me.marek2810.persoLib.nms_v1_21_R3.interaction.PersoInteraction_V1_21_R3;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
@@ -139,13 +141,12 @@ public class Hologram_v1_21_R3 extends AbstractHologram {
     }
 
     @Override
-    public void removeInteraction() {
-        PersoInteraction interaction = this.getInteraction();
-        if (interaction == null)
-            return;
-
-        Bukkit.getOnlinePlayers().forEach(interaction::hideFrom);
-        this.persoInteraction = null;
+    public void addInteraction(InteractionAction action) {
+        PersoInteraction persoInteraction = getInteraction();
+        if (persoInteraction != null) {
+            Bukkit.getOnlinePlayers().forEach(persoInteraction::hideFrom);
+        }
+        this.persoInteraction = new PersoInteraction_V1_21_R3(this, action);
     }
 
     @Nullable

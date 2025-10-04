@@ -1,6 +1,7 @@
 package me.marek2810.persoLib.hologram;
 
 import me.marek2810.persoLib.entity.PersoEntity;
+import me.marek2810.persoLib.interaction.InteractionAction;
 import me.marek2810.persoLib.interaction.PersoInteraction;
 
 public interface Hologram extends PersoEntity {
@@ -12,7 +13,7 @@ public interface Hologram extends PersoEntity {
 
     PersoInteraction getInteraction();
 
-    void addInteraction(PersoInteraction interaction);
+    void addInteraction(InteractionAction interactionAction);
 
     void removeInteraction();
 

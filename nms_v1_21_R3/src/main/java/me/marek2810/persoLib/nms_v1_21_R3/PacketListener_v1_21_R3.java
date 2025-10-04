@@ -3,6 +3,7 @@ package me.marek2810.persoLib.nms_v1_21_R3;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
+import me.marek2810.persoLib.event.event.HologramInteractEvent;
 import me.marek2810.persoLib.event.listener.PacketListener;
 import me.marek2810.persoLib.hologram.Hologram;
 import me.marek2810.persoLib.hologram.HologramManager;
@@ -71,11 +72,9 @@ public class PacketListener_v1_21_R3 implements PacketListener {
                     Field actionField = ServerboundInteractPacket.class.getDeclaredField("action");
                     actionField.setAccessible(true);
                     Object actionValue = actionField.get(packet);
-                    System.out.println("action " + actionValue);
                     Method getTypeMethod = actionValue.getClass().getMethod("getType");
                     getTypeMethod.setAccessible(true);
                     Object interactionType = getTypeMethod.invoke(actionValue);
-                    System.out.println("type: " + interactionType);
 
                     String stringAction = interactionType.toString();
 
@@ -85,26 +84,21 @@ public class PacketListener_v1_21_R3 implements PacketListener {
                     EquipmentSlot hand;
 
                     if (stringAction.equalsIgnoreCase("interact")) {
-                        System.out.println("?");
-
                         Field handField = actionValue.getClass().getDeclaredField("hand");
                         handField.setAccessible(true);
                         Object packetHand = handField.get(actionValue);
                         InteractionHand interactionHand = (InteractionHand) packetHand;
-                        System.out.println("interactionHand " + interactionHand);
-                        System.out.println("Hand used: " + packetHand);
                         hand = interactionHand == InteractionHand.MAIN_HAND ? EquipmentSlot.HAND : EquipmentSlot.OFF_HAND;
                     } else {
                         hand = EquipmentSlot.HAND;
                     }
-                    System.out.println("---");
 
                     Bukkit.getScheduler().runTask(plugin, () -> {
-//                        HologramInteractEvent event = new HologramInteractEvent(hologram, player, hand);
-//                        Bukkit.getPluginManager().callEvent(event);
-//
-//                        if (event.isCancelled())
-//                            return;
+                        HologramInteractEvent event = new HologramInteractEvent(hologram, player, hand);
+                        Bukkit.getPluginManager().callEvent(event);
+
+                        if (event.isCancelled())
+                            return;
 
                         clickedHologram.get().getInteraction().getAction().execute(player);
                     });
