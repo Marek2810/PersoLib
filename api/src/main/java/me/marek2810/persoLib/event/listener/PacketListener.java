@@ -1,6 +1,5 @@
 package me.marek2810.persoLib.event.listener;
 
-import me.marek2810.persoLib.hologram.HologramManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,8 +9,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public interface PacketListener extends Listener {
 
     String PACKET_INJECTOR = "perso_packet_listener";
-
-    HologramManager getHologramManager();
 
     void injectPacketListener(Player player);
 

@@ -2,22 +2,19 @@ package me.marek2810.persoLib;
 
 import me.marek2810.persoLib.event.listener.PacketListener;
 import me.marek2810.persoLib.hologram.HologramManager;
-import me.marek2810.persoLib.nms_v1_21_R3.PacketListener_v1_21_R3;
-import me.marek2810.persoLib.nms_v1_21_R3.hologram.HologramManager_v1_21_R3;
+import me.marek2810.persoLib.nms_v1_21_R3.NMSAdapter_v1_21_R3;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PersoLib {
 
     private static PersoLib INSTANCE;
-    private static JavaPlugin PLUGIN;
 
     private final HologramManager hologramManager;
     private final PacketListener packetListener;
 
-    private PersoLib(JavaPlugin plugin, HologramManager hologramManager, PacketListener packetListener) {
+    private PersoLib(HologramManager hologramManager, PacketListener packetListener) {
         INSTANCE = this;
-        PLUGIN = plugin;
         this.hologramManager = hologramManager;
         this.packetListener = packetListener;
     }
@@ -28,18 +25,21 @@ public class PersoLib {
 
         String mcVersion = getCurrentMinecraftVersion();
 
-        HologramManager hologramManager;
-        PacketListener packetListener;
+        NMSAdapter nmsAdapter;
 
         //NMS 1_21_R3
         if (mcVersion.equalsIgnoreCase("1.21.4")) {
-            hologramManager = new HologramManager_v1_21_R3();
-            packetListener  = new PacketListener_v1_21_R3(plugin, hologramManager);
+            nmsAdapter = new NMSAdapter_v1_21_R3(plugin);
         }
         else {
             throw new IllegalStateException("This server version is not supported!");
         }
-        INSTANCE = new PersoLib(plugin, hologramManager, packetListener);
+
+        HologramManager hologramManager = nmsAdapter.getHologramManager();
+        PacketListener packetListener = nmsAdapter.getPacketListener();
+
+        INSTANCE = new PersoLib(hologramManager, packetListener);
+
         Bukkit.getPluginManager().registerEvents(packetListener, plugin);
         return INSTANCE;
     }
@@ -54,14 +54,8 @@ public class PersoLib {
 
     public static PersoLib getInstance() {
         if (INSTANCE == null)
-            throw new IllegalStateException("PersoLib is not initialized! Call PersoLib.init(plugin) in onEnable().");
+            throw new IllegalStateException("PersoLib is not initialized! Call PersoLib.init(JavaPlugin) in onEnable().");
         return INSTANCE;
-    }
-
-    public static JavaPlugin getPlugin() {
-        if (PLUGIN == null)
-            throw new IllegalStateException("PersoLib plugin instance is null! Did you call init?");
-        return PLUGIN;
     }
 
     private static String getCurrentMinecraftVersion() {

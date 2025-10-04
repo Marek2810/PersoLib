@@ -129,9 +129,4 @@ public class PacketListener_v1_21_R3 implements PacketListener {
         }
     }
 
-    @Override
-    public HologramManager getHologramManager() {
-        return hologramManager;
-    }
-
 }
