@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation project(':api')
+
+    implementation project(':nms_v1_21_R3')
+
+    compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+}

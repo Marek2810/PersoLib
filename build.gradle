@@ -5,13 +5,12 @@ plugins {
 }
 
 group = 'me.marek2810'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 
 ext {
     targetJavaVersion = 21
 }
 
-// Repozitáre pre všetky projekty
 allprojects {
     repositories {
         mavenCentral()
@@ -23,7 +22,6 @@ allprojects {
     }
 }
 
-// Lombok + toolchain pre všetky subprojekty
 subprojects {
     apply plugin: 'java'
 
@@ -33,23 +31,14 @@ subprojects {
         targetCompatibility = javaVersion
         toolchain.languageVersion.set(JavaLanguageVersion.of(rootProject.ext.targetJavaVersion))
     }
-//
-//    dependencies {
-//        compileOnly 'org.projectlombok:lombok:1.18.34'
-//        annotationProcessor 'org.projectlombok:lombok:1.18.34'
-//    }
 }
 
-// Root dependencies
 dependencies {
-//    compileOnly 'org.projectlombok:lombok:1.18.34'
-//    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
     implementation project(':api')
-    implementation project(':NMS1_21_4')
+    implementation project(':core')
+    implementation project(':nms_v1_21_R3')
 }
 
-// Root Java toolchain + sources/javadoc
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
@@ -60,46 +49,34 @@ java {
     withJavadocJar()
 }
 
-// ------------------------------
-// Aggregate jar pre root projekt
-// ------------------------------
 tasks.register('aggregateJar', Jar) {
     archiveBaseName.set('PersoLib')
-    archiveClassifier.set('')   // normálny jar
+    archiveClassifier.set('')
     archiveVersion.set('')
 
-    // Skopíruj všetky kompilované triedy z subprojektov
     from subprojects.collect { it.sourceSets.main.output }
 }
 
-// Shadow jar (fat jar)
 tasks.named('shadowJar') {
     archiveBaseName.set("PersoLib")
-    archiveClassifier.set('all')   // unikátny classifier
+    archiveClassifier.set('all')
     archiveVersion.set('')
     mergeServiceFiles()
     configurations = [project.configurations.runtimeClasspath]
 }
 
-// build závisí na shadowJar
 tasks.named('build') {
     dependsOn tasks.named('shadowJar')
-    dependsOn tasks.named('aggregateJar') // aby sa skompiloval aj normálny jar
+    dependsOn tasks.named('aggregateJar')
 }
 
-// ------------------------------
-// Publishing do Maven Local
-// ------------------------------
 publishing {
     publications {
         myLib(MavenPublication) {
-            // normálny jar s triedami zo subprojektov
             artifact(tasks.named('aggregateJar'))
 
-            // shadow jar
             artifact(tasks.named('shadowJar'))
 
-            // sources a javadoc
             artifact(tasks.named('sourcesJar'))
             artifact(tasks.named('javadocJar'))
 

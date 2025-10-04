@@ -1,4 +1,4 @@
-package me.marek2810.persoLib.v1_21_R3;
+package me.marek2810.persoLib.nms_v1_21_R3;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -11,8 +11,11 @@ import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.server.network.ServerCommonPacketListenerImpl;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.InteractionHand;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -21,9 +24,11 @@ import java.util.Optional;
 
 public class PacketListener_v1_21_R3 implements PacketListener {
 
+    private final JavaPlugin plugin;
     private final HologramManager hologramManager;
 
-    public PacketListener_v1_21_R3(HologramManager hologramManager) {
+    public PacketListener_v1_21_R3(JavaPlugin plugin, HologramManager hologramManager) {
+        this.plugin = plugin;
         this.hologramManager = hologramManager;
     }
 
@@ -56,40 +61,53 @@ public class PacketListener_v1_21_R3 implements PacketListener {
 
                     int entityId = (int) entityIdValue;
 
-                    System.out.println("interact");
-                    System.out.println("entityId " + entityId);
                     Optional<Hologram> clickedHologram = hologramManager.getInteracted(entityId);
-                    System.out.println("is hologram? " + clickedHologram.isPresent());
-                    if (clickedHologram.isPresent()) {
-                        Hologram hologram = clickedHologram.get();
-                        System.out.println("holo click!");
-                        System.out.println("holo " + hologram);
-                        System.out.println("name " + hologram.getId());
 
-                        clickedHologram.get().getInteraction().getAction().execute(player);
-                    }
+                    if (clickedHologram.isEmpty())
+                        return;
+
+                    Hologram hologram = clickedHologram.get();
 
                     Field actionField = ServerboundInteractPacket.class.getDeclaredField("action");
                     actionField.setAccessible(true);
                     Object actionValue = actionField.get(packet);
+                    System.out.println("action " + actionValue);
                     Method getTypeMethod = actionValue.getClass().getMethod("getType");
                     getTypeMethod.setAccessible(true);
                     Object interactionType = getTypeMethod.invoke(actionValue);
                     System.out.println("type: " + interactionType);
 
-                    if (interactionType.toString().equalsIgnoreCase("interact")
-                            || interactionType.toString().equalsIgnoreCase("interact_at")) {
+                    String stringAction = interactionType.toString();
+
+                    if (stringAction.equalsIgnoreCase("interact_at"))
+                        return;
+
+                    EquipmentSlot hand;
+
+                    if (stringAction.equalsIgnoreCase("interact")) {
                         System.out.println("?");
 
                         Field handField = actionValue.getClass().getDeclaredField("hand");
                         handField.setAccessible(true);
-                        Object hand = handField.get(actionValue);
-                        InteractionHand interactionHand = (InteractionHand) hand;
+                        Object packetHand = handField.get(actionValue);
+                        InteractionHand interactionHand = (InteractionHand) packetHand;
                         System.out.println("interactionHand " + interactionHand);
-
-                        System.out.println("Hand used: " + hand);
+                        System.out.println("Hand used: " + packetHand);
+                        hand = interactionHand == InteractionHand.MAIN_HAND ? EquipmentSlot.HAND : EquipmentSlot.OFF_HAND;
+                    } else {
+                        hand = EquipmentSlot.HAND;
                     }
                     System.out.println("---");
+
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+//                        HologramInteractEvent event = new HologramInteractEvent(hologram, player, hand);
+//                        Bukkit.getPluginManager().callEvent(event);
+//
+//                        if (event.isCancelled())
+//                            return;
+
+                        clickedHologram.get().getInteraction().getAction().execute(player);
+                    });
                 }
             });
         } catch (Exception e) {

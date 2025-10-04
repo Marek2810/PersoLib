@@ -1,9 +1,9 @@
-package me.marek2810.persoLib.v1_21_R3.interaction;
+package me.marek2810.persoLib.nms_v1_21_R3.interaction;
 
 import me.marek2810.persoLib.hologram.Hologram;
 import me.marek2810.persoLib.interaction.InteractionAction;
 import me.marek2810.persoLib.interaction.PersoInteraction;
-import me.marek2810.persoLib.v1_21_R3.entity.EntityDataAdapter;
+import me.marek2810.persoLib.nms_v1_21_R3.entity.EntityDataAdapter;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;

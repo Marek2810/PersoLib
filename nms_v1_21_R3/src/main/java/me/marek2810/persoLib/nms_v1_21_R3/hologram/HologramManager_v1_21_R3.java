@@ -1,4 +1,4 @@
-package me.marek2810.persoLib.v1_21_R3.hologram;
+package me.marek2810.persoLib.nms_v1_21_R3.hologram;
 
 import me.marek2810.persoLib.hologram.Hologram;
 import me.marek2810.persoLib.hologram.HologramManager;
