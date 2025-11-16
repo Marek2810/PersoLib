@@ -6,6 +6,7 @@ import me.marek2810.persoLib.hologram.Hologram;
 import me.marek2810.persoLib.hologram.setting.HologramSetting;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,10 +23,10 @@ public abstract class PersoInteraction implements PersoEntity {
     protected final Hologram hologram;
     private final Map<EntitySetting<?>, Object> settings;
 
-    @NotNull
-    private final InteractionAction action;
+    @Nullable
+    private InteractionAction action;
 
-    public PersoInteraction(@NotNull Hologram hologram, @NotNull InteractionAction action) {
+    public PersoInteraction(@NotNull Hologram hologram, @Nullable InteractionAction action) {
         this.hologram = hologram;
         this.settings = new HashMap<>();
         this.settings.putAll(DEFAULT_SETTINGS);
@@ -42,9 +43,13 @@ public abstract class PersoInteraction implements PersoEntity {
         return hologram.getLocation();
     }
 
-    @NotNull
+    @Nullable
     public InteractionAction getAction() {
         return action;
+    }
+
+    public void setAction(@Nullable InteractionAction action) {
+        this.action = action;
     }
 
     public void setWidth(float width) {

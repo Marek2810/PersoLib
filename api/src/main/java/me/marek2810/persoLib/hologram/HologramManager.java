@@ -41,8 +41,8 @@ public abstract class HologramManager {
     public Optional<Hologram> getInteracted(int entityId) {
         return hologramMap.values().stream()
                 .filter(hologram ->
-                        hologram.getInteraction() != null
-                        && hologram.getInteraction().getEntityId() == entityId
+                        hologram.getHologramLine().getInteraction() != null
+                        && hologram.getHologramLine().getInteraction().getEntityId() == entityId
                 )
                 .findFirst();
     }

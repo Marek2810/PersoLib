@@ -7,6 +7,8 @@ import me.marek2810.persoLib.event.event.HologramInteractEvent;
 import me.marek2810.persoLib.event.listener.PacketListener;
 import me.marek2810.persoLib.hologram.Hologram;
 import me.marek2810.persoLib.hologram.HologramManager;
+import me.marek2810.persoLib.interaction.InteractionAction;
+import me.marek2810.persoLib.interaction.PersoInteraction;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.server.network.ServerCommonPacketListenerImpl;
@@ -100,7 +102,15 @@ public class PacketListener_v1_21_R3 implements PacketListener {
                         if (event.isCancelled())
                             return;
 
-                        clickedHologram.get().getInteraction().getAction().execute(player);
+                        PersoInteraction interaction = clickedHologram.get().getHologramLine().getInteraction();
+                        if (interaction == null)
+                            return;
+
+                        InteractionAction action = interaction.getAction();
+                        if (action == null)
+                            return;
+
+                        action.execute(player);
                     });
                 }
             });

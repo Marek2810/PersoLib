@@ -1,44 +1,40 @@
 package me.marek2810.persoLib.hologram.setting;
 
 import me.marek2810.persoLib.entity.EntitySetting;
-import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.joml.Vector3f;
 
-import java.util.Map;
-
 public final class HologramSetting {
 
-    public static final Map<EntitySetting<?>, Object> DEFAULT_SETTINGS = Map.ofEntries(
-            Map.entry(HologramSetting.Global.TRANSLATION, new Vector3f(0, 0, 0)),
-            Map.entry(HologramSetting.Global.SCALE, new Vector3f(1, 1, 1)),
-//            Map.entry(HologramSetting.BILLBOARD, Display.Billboard.FIXED),
-            Map.entry(HologramSetting.Global.BILLBOARD, Display.Billboard.CENTER),
-            Map.entry(HologramSetting.Global.BRIGHTNESS, -1),
-            Map.entry(HologramSetting.Global.VIEW_RANGE, 1f),
-            Map.entry(HologramSetting.Global.SHADOW_RADIUS, 0f),
-            Map.entry(HologramSetting.Global.SHADOW_STRANGE, 0f),
-            Map.entry(HologramSetting.Global.WIDTH, 0f),
-            Map.entry(HologramSetting.Global.HEIGHT, 0f),
-            Map.entry(HologramSetting.Global.GLOW_COLOR, -1)
-    );
-    public static final Map<EntitySetting<?>, Object> TEXT_DEFAULT_SETTINGS = Map.ofEntries(
-            Map.entry(HologramSetting.Text.TEXT, ""),
-            Map.entry(HologramSetting.Text.LINE_WIDTH, 200),
-            Map.entry(HologramSetting.Text.BACKGROUND_COLOR, 1073741824),
-            Map.entry(HologramSetting.Text.TEXT_OPACITY, (byte) -1),
-            Map.entry(HologramSetting.Text.FORMAT, (byte) 0)
-    );
-    public static final Map<EntitySetting<?>, Object> ITEM_DEFAULT_SETTINGS = Map.ofEntries(
-            Map.entry(HologramSetting.Item.ITEM_STACK, new ItemStack(Material.GRASS_BLOCK)),
-            Map.entry(HologramSetting.Item.DISPLAY_TRANSFORM, ItemDisplay.ItemDisplayTransform.NONE)
-    );
-    public static final Map<EntitySetting<?>, Object> BLOCK_DEFAULT_SETTINGS = Map.ofEntries(
-            Map.entry(HologramSetting.BLock.BLOCK_STATE, 0)
-    );
+//    public static final Map<EntitySetting<?>, Object> DEFAULT_SETTINGS = Map.ofEntries(
+//            Map.entry(HologramSetting.Global.TRANSLATION, new Vector3f(0, 0, 0)),
+//            Map.entry(HologramSetting.Global.SCALE, new Vector3f(1, 1, 1)),
+//            Map.entry(HologramSetting.Global.BILLBOARD, Display.Billboard.CENTER),
+//            Map.entry(HologramSetting.Global.BRIGHTNESS, -1),
+//            Map.entry(HologramSetting.Global.VIEW_RANGE, 1f),
+//            Map.entry(HologramSetting.Global.SHADOW_RADIUS, 0f),
+//            Map.entry(HologramSetting.Global.SHADOW_STRANGE, 0f),
+//            Map.entry(HologramSetting.Global.WIDTH, 0f),
+//            Map.entry(HologramSetting.Global.HEIGHT, 0f),
+//            Map.entry(HologramSetting.Global.GLOW_COLOR, -1)
+//    );
+//    public static final Map<EntitySetting<?>, Object> TEXT_DEFAULT_SETTINGS = Map.ofEntries(
+//            Map.entry(HologramSetting.Text.TEXT, ""),
+//            Map.entry(HologramSetting.Text.LINE_WIDTH, 200),
+//            Map.entry(HologramSetting.Text.BACKGROUND_COLOR, 1073741824),
+//            Map.entry(HologramSetting.Text.TEXT_OPACITY, (byte) -1),
+//            Map.entry(HologramSetting.Text.FORMAT, (byte) 0)
+//    );
+//    public static final Map<EntitySetting<?>, Object> ITEM_DEFAULT_SETTINGS = Map.ofEntries(
+//            Map.entry(HologramSetting.Item.ITEM_STACK, new ItemStack(Material.GRASS_BLOCK)),
+//            Map.entry(HologramSetting.Item.DISPLAY_TRANSFORM, ItemDisplay.ItemDisplayTransform.NONE)
+//    );
+//    public static final Map<EntitySetting<?>, Object> BLOCK_DEFAULT_SETTINGS = Map.ofEntries(
+//            Map.entry(HologramSetting.BLock.BLOCK_STATE, 0)
+//    );
 
     private HologramSetting() {
     }
@@ -80,7 +76,7 @@ public final class HologramSetting {
     }
 
     public static class Interaction {
-        // Text-specific  (TextDisplay entity)
+        // Interaction-specific (Interaction entity)
         public static final EntitySetting<Float> WIDTH = new EntitySetting<>(Float.class, 8);
         public static final EntitySetting<Float> HEIGHT = new EntitySetting<>(Float.class, 9);
         public static final EntitySetting<Boolean> RESPONSIVE  = new EntitySetting<>(Boolean.class, 10);

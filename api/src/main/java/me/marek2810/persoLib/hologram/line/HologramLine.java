@@ -3,6 +3,8 @@ package me.marek2810.persoLib.hologram.line;
 import me.marek2810.persoLib.entity.EntitySetting;
 import me.marek2810.persoLib.hologram.HologramType;
 import me.marek2810.persoLib.hologram.setting.HologramSetting;
+import me.marek2810.persoLib.interaction.InteractionAction;
+import me.marek2810.persoLib.interaction.PersoInteraction;
 import org.bukkit.entity.Display;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
@@ -30,16 +32,36 @@ public abstract class HologramLine {
     private final HologramType type;
     private final Map<EntitySetting<?>, Object> settings;
 
-    protected HologramLine(@NotNull HologramType hologramType, Map<EntitySetting<?>, Object> defaultSettings) {
+    protected PersoInteraction persoInteraction;
+
+    protected HologramLine(@NotNull HologramType hologramType, Map<EntitySetting<?>, Object> typedDefaultSettings) {
         this.type = hologramType;
         this.settings = new HashMap<>();
         this.settings.putAll(DEFAULT_SETTINGS);
-        this.settings.putAll(defaultSettings);
+        this.settings.putAll(typedDefaultSettings);
     }
 
     @NotNull
     public HologramType getType() {
         return type;
+    }
+
+//    public void removeInteraction() {
+//        PersoInteraction interaction = this.getInteraction();
+//        if (interaction == null)
+//            return;
+//
+//        Bukkit.getOnlinePlayers().forEach(interaction::hideFrom);
+//        this.persoInteraction = null;
+//    }
+//
+
+    public PersoInteraction getInteraction() {
+        return persoInteraction;
+    }
+
+    public void addAction(InteractionAction action) {
+        this.persoInteraction.setAction(action);
     }
 
     @SuppressWarnings("unchecked")

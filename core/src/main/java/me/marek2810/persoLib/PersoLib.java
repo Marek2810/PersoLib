@@ -48,10 +48,6 @@ public class PersoLib {
         return hologramManager;
     }
 
-    public PacketListener getPacketListener() {
-        return packetListener;
-    }
-
     public static PersoLib getInstance() {
         if (INSTANCE == null)
             throw new IllegalStateException("PersoLib is not initialized! Call PersoLib.init(JavaPlugin) in onEnable().");

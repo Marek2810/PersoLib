@@ -5,7 +5,6 @@ import me.marek2810.persoLib.hologram.line.HologramLine;
 import me.marek2810.persoLib.interaction.InteractionAction;
 import me.marek2810.persoLib.interaction.PersoInteraction;
 import me.marek2810.persoLib.nms_v1_21_R3.entity.EntityDataAdapter;
-import me.marek2810.persoLib.nms_v1_21_R3.interaction.PersoInteraction_V1_21_R3;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
@@ -75,6 +74,7 @@ public class Hologram_v1_21_R3 extends AbstractHologram {
         Packet<?> teleportDisplayPacket = new ClientboundTeleportEntityPacket(entity.getId(), PositionMoveRotation.of(entity), Set.of(), entity.onGround());
         Bukkit.getOnlinePlayers().forEach(player -> getConnection(player).sendPacket(teleportDisplayPacket));
 
+        PersoInteraction persoInteraction = hologramLine.getInteraction();
         if (persoInteraction != null) {
             persoInteraction.teleport(target);
         }
@@ -103,6 +103,8 @@ public class Hologram_v1_21_R3 extends AbstractHologram {
         getConnection(player).sendPacket(addDisplayPacket);
 
         update(player);
+
+        PersoInteraction persoInteraction = hologramLine.getInteraction();
         if (persoInteraction != null) {
             persoInteraction.showTo(player);
         }
@@ -116,6 +118,7 @@ public class Hologram_v1_21_R3 extends AbstractHologram {
         Packet<?> removeDisplayPacket = new ClientboundRemoveEntitiesPacket(getEntity().getId());
         getConnection(player).sendPacket(removeDisplayPacket);
 
+        PersoInteraction persoInteraction = hologramLine.getInteraction();
         if (persoInteraction != null) {
             persoInteraction.hideFrom(player);
         }
@@ -135,18 +138,18 @@ public class Hologram_v1_21_R3 extends AbstractHologram {
         Packet<?> dataPacket = new ClientboundSetEntityDataPacket(getEntity().getId(), data);
         getConnection(player).sendPacket(dataPacket);
 
-        if (persoInteraction != null) {
+        PersoInteraction persoInteraction = hologramLine.getInteraction();
+        if (persoInteraction!= null) {
             persoInteraction.update(player);
         }
     }
 
-    @Override
     public void addInteraction(InteractionAction action) {
-        PersoInteraction persoInteraction = getInteraction();
+        PersoInteraction persoInteraction = hologramLine.getInteraction();
         if (persoInteraction != null) {
             Bukkit.getOnlinePlayers().forEach(persoInteraction::hideFrom);
         }
-        this.persoInteraction = new PersoInteraction_V1_21_R3(this, action);
+//        this.persoInteraction = new PersoInteraction_V1_21_R3(this, action);
     }
 
     @Nullable
