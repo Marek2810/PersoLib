@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class HologramLine_V1_23_R3<T> implements HologramLine<T> {
+public abstract class HologramLine_v1_23_R3<T> implements HologramLine<T> {
 
     private static final Map<EntitySetting<?>, Object> DEFAULT_SETTINGS = Map.ofEntries(
             Map.entry(HologramSetting.Global.TRANSLATION, new Vector3f(0, 0, 0)),
@@ -54,7 +54,7 @@ public abstract class HologramLine_V1_23_R3<T> implements HologramLine<T> {
 
     protected T content;
 
-    protected HologramLine_V1_23_R3(HologramLineType type, Location location, Map<EntitySetting<?>, Object> defaultSettings) {
+    protected HologramLine_v1_23_R3(HologramLineType type, Location location, Map<EntitySetting<?>, Object> defaultSettings) {
         this.type = type;
         this.settings = new HashMap<>();
         this.location = location;

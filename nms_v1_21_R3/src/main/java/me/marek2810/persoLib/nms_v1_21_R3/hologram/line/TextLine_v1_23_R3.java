@@ -11,7 +11,7 @@ import org.bukkit.entity.TextDisplay;
 
 import java.util.Map;
 
-public class TextLine_V1_23_R3 extends HologramLine_V1_23_R3<String> implements TextLine {
+public class TextLine_v1_23_R3 extends HologramLine_v1_23_R3<String> implements TextLine {
 
     private static final Map<EntitySetting<?>, Object> DEFAULT_SETTINGS = Map.ofEntries(
             Map.entry(HologramSetting.Text.TEXT, "default text"),
@@ -26,7 +26,7 @@ public class TextLine_V1_23_R3 extends HologramLine_V1_23_R3<String> implements 
     private boolean useDefaultColor;
     private TextDisplay.TextAlignment textAlignment;
 
-    public TextLine_V1_23_R3(Location location) {
+    public TextLine_v1_23_R3(Location location) {
         super(HologramLineType.TEXT, location, DEFAULT_SETTINGS);
         this.display = new Display.TextDisplay(EntityType.TEXT_DISPLAY, getLevel());
         this.display.setPos(getLocation().getX(), getLocation().getY(), getLocation().getZ());

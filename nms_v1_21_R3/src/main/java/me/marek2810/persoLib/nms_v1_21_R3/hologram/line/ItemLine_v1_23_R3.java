@@ -13,14 +13,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
-public class ItemLine_V1_23_R3 extends HologramLine_V1_23_R3<ItemStack> implements ItemLine {
+public class ItemLine_v1_23_R3 extends HologramLine_v1_23_R3<ItemStack> implements ItemLine {
 
     private static final Map<EntitySetting<?>, Object> DEFAULT_SETTINGS = Map.ofEntries(
             Map.entry(HologramSetting.Item.ITEM_STACK, new ItemStack(Material.GRASS_BLOCK)),
             Map.entry(HologramSetting.Item.DISPLAY_TRANSFORM, ItemDisplay.ItemDisplayTransform.NONE)
     );
 
-    public ItemLine_V1_23_R3(Location location) {
+    public ItemLine_v1_23_R3(Location location) {
         super(HologramLineType.ITEM, location, DEFAULT_SETTINGS);
         this.display = new Display.ItemDisplay(EntityType.ITEM_DISPLAY, getLevel());
         this.display.setPos(getLocation().getX(), getLocation().getY(), getLocation().getZ());

@@ -13,13 +13,13 @@ import org.bukkit.block.data.BlockData;
 
 import java.util.Map;
 
-public class BlockLine_V1_23_R3 extends HologramLine_V1_23_R3<BlockData> implements BlockLine {
+public class BlockLine_v1_23_R3 extends HologramLine_v1_23_R3<BlockData> implements BlockLine {
 
     private static final Map<EntitySetting<?>, Object> DEFAULT_SETTINGS = Map.ofEntries(
             Map.entry(HologramSetting.BLock.BLOCK_STATE, Material.GRASS_BLOCK.createBlockData().createBlockState())
     );
 
-    public BlockLine_V1_23_R3(Location location) {
+    public BlockLine_v1_23_R3(Location location) {
         super(HologramLineType.BLOCK, location, DEFAULT_SETTINGS);
         this.display = new Display.BlockDisplay(EntityType.BLOCK_DISPLAY, getLevel());
         this.display.setPos(getLocation().getX(), getLocation().getY(), getLocation().getZ());

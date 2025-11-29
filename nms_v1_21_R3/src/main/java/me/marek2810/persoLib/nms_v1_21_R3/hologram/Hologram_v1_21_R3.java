@@ -4,9 +4,9 @@ import me.marek2810.persoLib.hologram.AbstractHologram;
 import me.marek2810.persoLib.hologram.line.BlockLine;
 import me.marek2810.persoLib.hologram.line.ItemLine;
 import me.marek2810.persoLib.hologram.line.TextLine;
-import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.BlockLine_V1_23_R3;
-import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.ItemLine_V1_23_R3;
-import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.TextLine_V1_23_R3;
+import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.BlockLine_v1_23_R3;
+import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.ItemLine_v1_23_R3;
+import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.TextLine_v1_23_R3;
 import org.bukkit.Location;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
@@ -19,21 +19,21 @@ public class Hologram_v1_21_R3 extends AbstractHologram {
 
     @Override
     public TextLine setTextLine(String text) {
-        TextLine_V1_23_R3 line = new TextLine_V1_23_R3(location);
+        TextLine_v1_23_R3 line = new TextLine_v1_23_R3(location);
         this.hologramLine = line;
         return line;
     }
 
     @Override
     public ItemLine setItemLine(ItemStack item) {
-        ItemLine_V1_23_R3 line = new ItemLine_V1_23_R3(location);
+        ItemLine_v1_23_R3 line = new ItemLine_v1_23_R3(location);
         this.hologramLine = line;
         return line;
     }
 
     @Override
     public BlockLine setBlockLine(BlockData blockData) {
-        BlockLine_V1_23_R3 line = new BlockLine_V1_23_R3(location);
+        BlockLine_v1_23_R3 line = new BlockLine_v1_23_R3(location);
         this.hologramLine = line;
         return line;
     }

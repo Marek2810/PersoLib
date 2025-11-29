@@ -26,11 +26,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Set;
 
-public class PersoInteraction_V1_21_R3 extends PersoInteraction {
+public class PersoInteraction_v1_21_R3 extends PersoInteraction {
 
     private Interaction entity;
 
-    public PersoInteraction_V1_21_R3(Hologram hologram, @NotNull InteractionAction action) {
+    public PersoInteraction_v1_21_R3(Hologram hologram, @NotNull InteractionAction action) {
         super(hologram, action);
     }
 
