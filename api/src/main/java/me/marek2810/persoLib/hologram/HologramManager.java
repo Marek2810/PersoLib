@@ -1,18 +1,47 @@
 package me.marek2810.persoLib.hologram;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class HologramManager {
+public class HologramManager {
 
     protected final Map<String, Hologram> hologramMap;
+    private final HologramFactory hologramFactory;
 
-    public HologramManager() {
+    public HologramManager(HologramFactory hologramFactory) {
         this.hologramMap = new HashMap<>();
+        this.hologramFactory = hologramFactory;
     }
 
-    public Hologram get(String id) {
-        return hologramMap.get(id);
+    @Nullable
+    public Hologram createHologram(String name, Location location) {
+        if(hologramMap.containsKey(name)) {
+            return null;
+        }
+        Hologram hologram = hologramFactory.createHologram(name, location);
+        hologramMap.put(name, hologram);
+        return hologram;
+    }
+
+    public Hologram get(String name) {
+        return hologramMap.get(name);
+    }
+
+    public void remove(String name) {
+        Hologram hologram = this.hologramMap.remove(name);
+        if (hologram == null)
+            return;
+        Bukkit.getOnlinePlayers().forEach(hologram::hideFrom);
+    }
+
+    public void initPlayer(Player player) {
+        //TODO optimization
+        hologramMap.values().forEach(hologram -> hologram.showTo(player));
     }
 
 //    public Optional<Hologram> get(int entityId) {
@@ -29,9 +58,5 @@ public abstract class HologramManager {
 //                )
 //                .findFirst();
 //    }
-
-    public void remove(String id) {
-        this.hologramMap.remove(id);
-    }
 
 }

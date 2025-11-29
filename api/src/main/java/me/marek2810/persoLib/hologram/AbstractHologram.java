@@ -6,15 +6,15 @@ import org.bukkit.entity.Player;
 
 public abstract class AbstractHologram implements Hologram {
 
-    protected final String id;
+    protected final String name;
 
     protected Location location;
 
     //TODO list of lines
     protected HologramLine hologramLine;
 
-    public AbstractHologram(String id, Location location) {
-        this.id = id;
+    public AbstractHologram(String name, Location location) {
+        this.name = name;
         this.location = location;
     }
 
@@ -42,8 +42,8 @@ public abstract class AbstractHologram implements Hologram {
     }
 
     @Override
-    public String getId() {
-        return this.id;
+    public String getName() {
+        return this.name;
     }
 
     @Override

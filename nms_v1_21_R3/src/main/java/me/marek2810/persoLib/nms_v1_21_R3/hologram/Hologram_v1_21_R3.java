@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class Hologram_v1_21_R3 extends AbstractHologram {
 
-    Hologram_v1_21_R3(String id, Location location) {
-        super(id, location);
+    Hologram_v1_21_R3(String name, Location location) {
+        super(name, location);
     }
 
     @Override

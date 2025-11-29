@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public interface Hologram {
 
     //ID for hologram manager
-    String getId();
+    String getName();
 
     TextLine setTextLine(String text);
 
