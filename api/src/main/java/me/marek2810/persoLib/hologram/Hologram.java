@@ -1,15 +1,29 @@
 package me.marek2810.persoLib.hologram;
 
-import me.marek2810.persoLib.entity.PersoEntity;
-import me.marek2810.persoLib.hologram.line.HologramLine;
+import me.marek2810.persoLib.hologram.line.*;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-public interface Hologram extends PersoEntity {
+public interface Hologram {
 
     //ID for hologram manager
     String getId();
 
-    int getEntityId();
+    TextLine setTextLine(String text);
 
+    ItemLine setItemLine(org.bukkit.inventory.ItemStack item);
+
+    BlockLine setBlockLine(org.bukkit.block.data.BlockData blockData);
+
+    //TODO more lines
     HologramLine getHologramLine();
+
+    Location getLocation();
+
+    void teleport(Location location);
+
+    void showTo(Player player);
+
+    void hideFrom(Player player);
 
 }

@@ -64,7 +64,9 @@ public class PacketListener_v1_21_R3 implements PacketListener {
 
                     int entityId = (int) entityIdValue;
 
-                    Optional<Hologram> clickedHologram = hologramManager.getInteracted(entityId);
+//                    Optional<Hologram> clickedHologram = hologramManager.getInteracted(entityId);
+                    //TODO
+                    Optional<Hologram> clickedHologram = Optional.empty();
 
                     if (clickedHologram.isEmpty())
                         return;
@@ -102,7 +104,9 @@ public class PacketListener_v1_21_R3 implements PacketListener {
                         if (event.isCancelled())
                             return;
 
-                        PersoInteraction interaction = clickedHologram.get().getHologramLine().getInteraction();
+                        //TODO
+//                        PersoInteraction interaction = clickedHologram.get().getHologramLine().getInteraction();
+                        PersoInteraction interaction = null;
                         if (interaction == null)
                             return;
 

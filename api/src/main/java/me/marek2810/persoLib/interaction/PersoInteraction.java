@@ -83,7 +83,7 @@ public abstract class PersoInteraction implements PersoEntity {
         return (T) value;
     }
 
-    protected  <T> void setSetting(EntitySetting<T> setting, T value) {
+    public <T> void setSetting(EntitySetting<T> setting, T value) {
         settings.put(setting, value);
     }
 

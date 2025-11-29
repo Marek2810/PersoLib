@@ -13,7 +13,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Interaction;
 import net.minecraft.world.entity.PositionMoveRotation;
 import net.minecraft.world.phys.Vec3;
@@ -33,16 +32,6 @@ public class PersoInteraction_V1_21_R3 extends PersoInteraction {
 
     public PersoInteraction_V1_21_R3(Hologram hologram, @NotNull InteractionAction action) {
         super(hologram, action);
-    }
-
-    @Override
-    public void create() {
-        if (!getLocation().isWorldLoaded())
-            return;
-
-        this.entity = new Interaction(EntityType.INTERACTION, getLevel());
-
-        this.entity.setPos(getLocation().getX(), getLocation().getY(), getLocation().getZ());
     }
 
     @Override
@@ -67,8 +56,6 @@ public class PersoInteraction_V1_21_R3 extends PersoInteraction {
 
     @Override
     public void showTo(Player player) {
-        if (getEntity() == null)
-            create();
 
         Interaction entity = getEntity();
         Location location = getLocation();

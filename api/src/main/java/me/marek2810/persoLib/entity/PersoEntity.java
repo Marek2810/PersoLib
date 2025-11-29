@@ -7,8 +7,6 @@ public interface PersoEntity {
 
     Location getLocation();
 
-    void create();
-
     void teleport(Location target);
 
     void showTo(Player player);
@@ -16,5 +14,9 @@ public interface PersoEntity {
     void hideFrom(Player player);
 
     void update(Player player);
+
+    <T> T getSetting(EntitySetting<T> setting);
+
+    <T> void setSetting(EntitySetting<T> setting, T value);
 
 }
