@@ -1,11 +1,11 @@
 package me.marek2810.persoLib.hologram.line;
 
 import org.bukkit.block.BlockState;
-import org.bukkit.block.data.BlockData;
 
-public interface BlockLine extends HologramLine<BlockData> {
+public interface BlockLine extends HologramLine<BlockState> {
 
-    void setBlockState(BlockState block);
-    BlockState getBlockState();
+//    Content methods should be used
+//    void setBlockState(BlockState block);
+//    BlockState getBlockState();
 
 }

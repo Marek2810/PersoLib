@@ -8,8 +8,6 @@ import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.BlockLine_v1_23_R3;
 import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.ItemLine_v1_23_R3;
 import me.marek2810.persoLib.nms_v1_21_R3.hologram.line.TextLine_v1_23_R3;
 import org.bukkit.Location;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.inventory.ItemStack;
 
 public class Hologram_v1_21_R3 extends AbstractHologram {
 
@@ -18,25 +16,24 @@ public class Hologram_v1_21_R3 extends AbstractHologram {
     }
 
     @Override
-    public TextLine setTextLine(String text) {
+    public TextLine setTextLine() {
         TextLine_v1_23_R3 line = new TextLine_v1_23_R3(location);
-        this.hologramLine = line;
+        setLine(line);
         return line;
     }
 
     @Override
-    public ItemLine setItemLine(ItemStack item) {
+    public ItemLine setItemLine() {
         ItemLine_v1_23_R3 line = new ItemLine_v1_23_R3(location);
-        this.hologramLine = line;
+        setLine(line);
         return line;
     }
 
     @Override
-    public BlockLine setBlockLine(BlockData blockData) {
+    public BlockLine setBlockLine() {
         BlockLine_v1_23_R3 line = new BlockLine_v1_23_R3(location);
-        this.hologramLine = line;
+        setLine(line);
         return line;
     }
-
 
 }

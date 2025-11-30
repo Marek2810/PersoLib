@@ -4,6 +4,7 @@ import me.marek2810.persoLib.entity.EntitySetting;
 import me.marek2810.persoLib.hologram.HologramLineType;
 import me.marek2810.persoLib.hologram.line.TextLine;
 import me.marek2810.persoLib.hologram.setting.HologramSetting;
+import me.marek2810.persoLib.util.TextUtil;
 import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.EntityType;
 import org.bukkit.Location;
@@ -30,6 +31,16 @@ public class TextLine_v1_23_R3 extends HologramLine_v1_23_R3<String> implements 
         super(HologramLineType.TEXT, location, DEFAULT_SETTINGS);
         this.display = new Display.TextDisplay(EntityType.TEXT_DISPLAY, getLevel());
         this.display.setPos(getLocation().getX(), getLocation().getY(), getLocation().getZ());
+    }
+
+    @Override
+    public void setContent(String text) {
+        this.setSetting(HologramSetting.Text.TEXT, TextUtil.format(text));
+    }
+
+    @Override
+    public String getContent() {
+        return this.getSetting(HologramSetting.Text.TEXT);
     }
 
     @Override
@@ -110,6 +121,7 @@ public class TextLine_v1_23_R3 extends HologramLine_v1_23_R3<String> implements 
         this.setSetting(HologramSetting.Text.FORMAT, getFormat());
     }
 
+    //TODO format when setting specified setting
     private byte getFormat() {
         byte format = 0;
         if (hasShadow())

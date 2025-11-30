@@ -6,7 +6,7 @@ public interface HologramLine<T> extends PersoEntity {
 
     int getDisplayEntityId();
 
-    void setContent(T conntent);
+    void setContent(T content);
 
     T getContent();
 

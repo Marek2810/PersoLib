@@ -22,9 +22,9 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_21_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,22 +52,14 @@ public abstract class HologramLine_v1_23_R3<T> implements HologramLine<T> {
     protected Display display;
     protected Location location;
 
-    protected T content;
+//    protected T content;
 
     protected HologramLine_v1_23_R3(HologramLineType type, Location location, Map<EntitySetting<?>, Object> defaultSettings) {
         this.type = type;
-        this.settings = new HashMap<>();
         this.location = location;
+        this.settings = new HashMap<>();
         this.settings.putAll(DEFAULT_SETTINGS);
         this.settings.putAll(defaultSettings);
-    }
-
-    public T getContent() {
-        return this.content;
-    }
-
-    public void setContent(T value) {
-        this.content = value;
     }
 
     @Nullable
@@ -82,6 +74,8 @@ public abstract class HologramLine_v1_23_R3<T> implements HologramLine<T> {
     public <S> void setSetting(EntitySetting<S> setting, S value) {
         if (settings.replace(setting, value) == null)
             throw new IllegalArgumentException("Invalid setting: " + setting);
+        //TODO optimize, maybe timer? send update only ever X seconds
+        Bukkit.getOnlinePlayers().forEach(this::update);
     }
 
     public Map<EntitySetting<?>, Object> getSettings() {
@@ -128,7 +122,7 @@ public abstract class HologramLine_v1_23_R3<T> implements HologramLine<T> {
         getConnection(player).sendPacket(removeDisplayPacket);
     }
 
-    //    https://minecraft.wiki/w/Java_Edition_protocol/Entity_metadata#Display
+    //https://minecraft.wiki/w/Java_Edition_protocol/Entity_metadata#Display
     @Override
     public void update(Player player) {
         List<SynchedEntityData.DataValue<?>> data = EntityDataAdapter.processSettings(getSettings());

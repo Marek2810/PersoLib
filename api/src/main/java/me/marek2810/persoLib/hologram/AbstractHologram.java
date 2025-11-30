@@ -1,6 +1,7 @@
 package me.marek2810.persoLib.hologram;
 
 import me.marek2810.persoLib.hologram.line.HologramLine;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -11,11 +12,21 @@ public abstract class AbstractHologram implements Hologram {
     protected Location location;
 
     //TODO list of lines
-    protected HologramLine hologramLine;
+    private HologramLine hologramLine;
 
     public AbstractHologram(String name, Location location) {
         this.name = name;
         this.location = location;
+    }
+
+    protected void setLine(HologramLine line) {
+        HologramLine actualLine = getHologramLine();
+        if (actualLine != null) {
+            Bukkit.getOnlinePlayers().forEach(actualLine::hideFrom);
+        }
+        this.hologramLine = line;
+        //TODO optimize
+        Bukkit.getOnlinePlayers().forEach(line::showTo);
     }
 
     @Override

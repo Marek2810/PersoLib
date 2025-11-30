@@ -74,6 +74,7 @@ public final class EntityDataAdapter {
                 .collect(Collectors.toList());
     }
 
+    //TODO move to holoLine and save already formated
     private static byte getBillboardByte(Display.Billboard billboard) {
         return switch (billboard) {
             case FIXED -> 0;

@@ -1,6 +1,9 @@
 package me.marek2810.persoLib.hologram;
 
-import me.marek2810.persoLib.hologram.line.*;
+import me.marek2810.persoLib.hologram.line.BlockLine;
+import me.marek2810.persoLib.hologram.line.HologramLine;
+import me.marek2810.persoLib.hologram.line.ItemLine;
+import me.marek2810.persoLib.hologram.line.TextLine;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -9,11 +12,11 @@ public interface Hologram {
     //ID for hologram manager
     String getName();
 
-    TextLine setTextLine(String text);
+    TextLine setTextLine();
 
-    ItemLine setItemLine(org.bukkit.inventory.ItemStack item);
+    ItemLine setItemLine();
 
-    BlockLine setBlockLine(org.bukkit.block.data.BlockData blockData);
+    BlockLine setBlockLine();
 
     //TODO more lines
     HologramLine getHologramLine();

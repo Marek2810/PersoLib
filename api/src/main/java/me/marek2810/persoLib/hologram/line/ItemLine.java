@@ -5,9 +5,9 @@ import org.bukkit.inventory.ItemStack;
 
 public interface ItemLine extends HologramLine<ItemStack> {
 
-    ItemStack getItem();
-
-    void setItem(ItemStack item);
+//    Content methods should be used
+//    ItemStack getItem();
+//    void setItem(ItemStack item);
 
     ItemDisplay.ItemDisplayTransform getTransform();
 

@@ -27,14 +27,25 @@ public class ItemLine_v1_23_R3 extends HologramLine_v1_23_R3<ItemStack> implemen
     }
 
     @Override
-    public ItemStack getItem() {
+    public ItemStack getContent() {
         return this.getSetting(HologramSetting.Item.ITEM_STACK);
     }
 
     @Override
-    public void setItem(ItemStack item) {
+    public void setContent(ItemStack item) {
         this.setSetting(HologramSetting.Item.ITEM_STACK, item);
     }
+
+//    Content methods should be used
+//    @Override
+//    public ItemStack getItem() {
+//        return this.getSetting(HologramSetting.Item.ITEM_STACK);
+//    }
+//
+//    @Override
+//    public void setItem(ItemStack item) {
+//        this.setSetting(HologramSetting.Item.ITEM_STACK, item);
+//    }
 
     @Override
     public ItemDisplay.ItemDisplayTransform getTransform() {
