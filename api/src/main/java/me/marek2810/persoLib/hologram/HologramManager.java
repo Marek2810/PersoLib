@@ -3,7 +3,6 @@ package me.marek2810.persoLib.hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +17,9 @@ public class HologramManager {
         this.hologramFactory = hologramFactory;
     }
 
-    @Nullable
     public Hologram createHologram(String name, Location location) {
         if(hologramMap.containsKey(name)) {
-            return null;
+            throw new IllegalArgumentException("Hologram with this name already exist.");
         }
         Hologram hologram = hologramFactory.createHologram(name, location);
         hologramMap.put(name, hologram);
