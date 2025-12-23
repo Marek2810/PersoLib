@@ -34,13 +34,13 @@ public class TextLine_v1_23_R3 extends HologramLine_v1_23_R3<String> implements 
     }
 
     @Override
-    public void setContent(String text) {
-        this.setSetting(HologramSetting.Text.TEXT, TextUtil.format(text));
+    public String getContent() {
+        return this.getSetting(HologramSetting.Text.TEXT);
     }
 
     @Override
-    public String getContent() {
-        return this.getSetting(HologramSetting.Text.TEXT);
+    public void setContent(String text) {
+        this.setSetting(HologramSetting.Text.TEXT, TextUtil.format(text));
     }
 
     @Override

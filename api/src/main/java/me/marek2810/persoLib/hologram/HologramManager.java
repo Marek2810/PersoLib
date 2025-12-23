@@ -18,9 +18,8 @@ public class HologramManager {
     }
 
     public Hologram createHologram(String name, Location location) {
-        if(hologramMap.containsKey(name)) {
+        if (hologramMap.containsKey(name))
             throw new IllegalArgumentException("Hologram with this name already exist.");
-        }
         Hologram hologram = hologramFactory.createHologram(name, location);
         hologramMap.put(name, hologram);
         return hologram;

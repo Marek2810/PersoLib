@@ -25,13 +25,13 @@ public class BlockLine_v1_23_R3 extends HologramLine_v1_23_R3<BlockState> implem
     }
 
     @Override
-    public void setContent(BlockState blockState) {
-        this.setSetting(HologramSetting.BLock.BLOCK_STATE, blockState);
+    public BlockState getContent() {
+        return this.getSetting(HologramSetting.BLock.BLOCK_STATE);
     }
 
     @Override
-    public BlockState getContent() {
-        return this.getSetting(HologramSetting.BLock.BLOCK_STATE);
+    public void setContent(BlockState blockState) {
+        this.setSetting(HologramSetting.BLock.BLOCK_STATE, blockState);
     }
 
 //    Content methods should be used

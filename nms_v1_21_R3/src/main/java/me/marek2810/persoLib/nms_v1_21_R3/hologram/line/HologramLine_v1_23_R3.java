@@ -38,7 +38,8 @@ public abstract class HologramLine_v1_23_R3<T> implements HologramLine<T> {
 //            Map.entry(HologramSetting.BILLBOARD, Display.Billboard.FIXED), - MC DEFAULT
             Map.entry(HologramSetting.Global.BILLBOARD, org.bukkit.entity.Display.Billboard.CENTER),
             Map.entry(HologramSetting.Global.BRIGHTNESS, -1),
-            Map.entry(HologramSetting.Global.VIEW_RANGE, 1f),
+//            Map.entry(HologramSetting.Global.VIEW_RANGE, 1f), - MC DEFUALT
+            Map.entry(HologramSetting.Global.VIEW_RANGE, 0.5f),
             Map.entry(HologramSetting.Global.SHADOW_RADIUS, 0f),
             Map.entry(HologramSetting.Global.SHADOW_STRANGE, 0f),
             Map.entry(HologramSetting.Global.WIDTH, 0f),
@@ -51,8 +52,6 @@ public abstract class HologramLine_v1_23_R3<T> implements HologramLine<T> {
 
     protected Display display;
     protected Location location;
-
-//    protected T content;
 
     protected HologramLine_v1_23_R3(HologramLineType type, Location location, Map<EntitySetting<?>, Object> defaultSettings) {
         this.type = type;
